@@ -28,7 +28,8 @@ endif()
 # --- The order book library (all the real code lives here) -------------------
 add_library(orderbook
     src/order.cpp
-    src/order_book.cpp)
+    src/order_book_v1.cpp
+    src/order_book_v2.cpp)
 target_include_directories(orderbook PUBLIC include)
 target_link_libraries(orderbook PUBLIC orderbook_options)
 

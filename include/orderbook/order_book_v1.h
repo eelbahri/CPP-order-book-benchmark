@@ -9,9 +9,11 @@
 
 namespace orderbook {
 
-// First, deliberately naive version. We'll measure it, then make it fast.
+// V1: the naive version, kept frozen as the baseline for comparisons.
+// Price levels in std::map (sorted tree), orders per level in std::deque.
+// Measured: best_bid() is O(log n) on libc++ (rbegin() walks the tree).
 // For now orders just rest in the book: no matching yet.
-class OrderBook {
+class OrderBookV1 {
 public:
     // const& : read the caller's Order without copying it (see explanation).
     void add(const Order& order);
