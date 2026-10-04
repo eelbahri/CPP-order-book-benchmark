@@ -1,0 +1,8 @@
+# Google C++ style, with 4-space indentation and 100-column lines.
+# Full option list: https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+BasedOnStyle: Google
+IndentWidth: 4
+AccessModifierOffset: -4      # public:/private: aligned with "class"
+ColumnLimit: 100
+DerivePointerAlignment: false
+PointerAlignment: Left        # const Order& order, not const Order &order

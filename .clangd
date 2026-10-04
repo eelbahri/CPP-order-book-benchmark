@@ -1,0 +1,4 @@
+CompileFlags:
+  # clangd only auto-searches ./ and ./build/. Our presets put the database
+  # in build/<preset>/, so we point to it explicitly.
+  CompilationDatabase: build/debug

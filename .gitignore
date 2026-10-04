@@ -1,0 +1,6 @@
+build/
+.DS_Store
+.cache/
+hello
+hello.dSYM/
+.CLAUDE.md

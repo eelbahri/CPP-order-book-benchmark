@@ -1,0 +1,9 @@
+{
+  "cmake.ctest.neverDebugTestsWithLaunchConfiguration": true,
+  "[cpp]": {
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
+    "editor.formatOnSave": true
+  },
+  // clangd reads build/debug/compile_commands.json for flags and include paths.
+  "clangd.arguments": ["--compile-commands-dir=build/debug"]
+}
