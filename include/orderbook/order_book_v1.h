@@ -22,7 +22,9 @@ public:
     // no heap allocation, it's just a T plus a bool.
     // The trailing "const" promises these methods don't modify the book.
     std::optional<Price> best_bid() const;  // highest buy price, if any
+    std::optional<Quantity> best_bid_quantity() const;
     std::optional<Price> best_ask() const;  // lowest sell price, if any
+    std::optional<Quantity> best_ask_quantity() const;
 
     std::size_t order_count() const;  // total resting orders
 

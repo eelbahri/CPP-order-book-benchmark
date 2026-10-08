@@ -17,11 +17,33 @@ std::optional<Price> OrderBookV1::best_bid() const {
     return bids_.rbegin()->first;
 }
 
+std::optional<Quantity> OrderBookV1::best_bid_quantity() const {
+    if (bids_.empty()) {
+        return std::nullopt;
+    }
+    Quantity total_qty = 0;
+    for (const auto& order : bids_.rbegin()->second) {
+        total_qty += order.quantity;
+    }
+    return total_qty;
+}
+
 std::optional<Price> OrderBookV1::best_ask() const {
     if (asks_.empty()) {
         return std::nullopt;
     }
     return asks_.begin()->first;
+}
+
+std::optional<Quantity> OrderBookV1::best_ask_quantity() const {
+    if (asks_.empty()) {
+        return std::nullopt;
+    }
+    Quantity total_qty = 0;
+    for (const auto& order : asks_.begin()->second) {
+        total_qty += order.quantity;
+    }
+    return total_qty;
 }
 
 std::size_t OrderBookV1::order_count() const {

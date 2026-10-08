@@ -15,8 +15,10 @@ option(ORDERBOOK_SANITIZE "Build with AddressSanitizer + UBSan" OFF)
 # An INTERFACE library holds no code, only settings. Targets that link it
 # inherit its flags (similar to a parent POM in Maven).
 add_library(orderbook_options INTERFACE)
+# -Werror turns every warning into an error: a warning can't scroll by unseen.
+# Only applies to OUR targets (gtest/benchmark don't link orderbook_options).
 target_compile_options(orderbook_options INTERFACE
-    -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion)
+    -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Werror)
 
 if(ORDERBOOK_SANITIZE)
     target_compile_options(orderbook_options INTERFACE
@@ -29,7 +31,8 @@ endif()
 add_library(orderbook
     src/order.cpp
     src/order_book_v1.cpp
-    src/order_book_v2.cpp)
+    src/order_book_v2.cpp
+    src/order_book_v3.cpp)
 target_include_directories(orderbook PUBLIC include)
 target_link_libraries(orderbook PUBLIC orderbook_options)
 

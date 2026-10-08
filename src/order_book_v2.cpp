@@ -1,6 +1,7 @@
 #include "orderbook/order_book_v2.h"
 
 #include <cstddef>
+#include <cstdint>
 #include <optional>
 
 namespace orderbook {
@@ -21,11 +22,33 @@ std::optional<Price> OrderBookV2::best_bid() const {
     return bids_.begin()->first;
 }
 
+std::optional<Quantity> OrderBookV2::best_bid_quantity() const {
+    if (bids_.empty()) {
+        return std::nullopt;
+    }
+    Quantity total_qty = 0;
+    for (const auto& order : bids_.begin()->second) {
+        total_qty += order.quantity;
+    }
+    return total_qty;
+}
+
 std::optional<Price> OrderBookV2::best_ask() const {
     if (asks_.empty()) {
         return std::nullopt;
     }
     return asks_.begin()->first;
+}
+
+std::optional<Quantity> OrderBookV2::best_ask_quantity() const {
+    if (asks_.empty()) {
+        return std::nullopt;
+    }
+    Quantity total_qty = 0;
+    for (const auto& order : asks_.begin()->second) {
+        total_qty += order.quantity;
+    }
+    return total_qty;
 }
 
 std::size_t OrderBookV2::order_count() const {
