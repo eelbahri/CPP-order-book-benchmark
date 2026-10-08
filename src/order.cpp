@@ -9,7 +9,7 @@ std::string_view to_string(Side side) {
         case Side::Sell:
             return "Sell";
     }
-    return "Unknown";  // unreachable for valid values, but silences a warning
+    return "Unknown";
 }
 
 }  // namespace orderbook

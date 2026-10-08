@@ -10,26 +10,16 @@ TEST(SideTest, ToStringNamesEachSide) {
     EXPECT_EQ(to_string(Side::Sell), "Sell");
 }
 
-TEST(OrderTest, IsAPlainValue) {
-    Order a{
-        .id = 1,
-        .price = 100,
-        .quantity = 10,
-        .side = Side::Sell,
-    };
-    Order b = a;  // a COPY, not a second reference (unlike Java)
-    b.quantity = 99;
-    EXPECT_EQ(a.quantity, 10u);  // a is untouched
+TEST(OrderTest, HasNoPaddingWaste) {
+    static_assert(sizeof(Order) == 24, "Order layout changed: check field order");
+    SUCCEED();
 }
 
-TEST(OrderTest, IsASell) {
-    Order a{
-        .id = 1,
-        .price = 100,
-        .quantity = 10,
-        .side = Side::Sell,
-    };
-    EXPECT_EQ(a.side, Side::Sell);
+TEST(OrderTest, CopiesAreIndependentValues) {
+    const Order a{.id = 1, .price = 100, .quantity = 10, .side = Side::Sell};
+    Order b = a;
+    b.quantity = 99;
+    EXPECT_EQ(a.quantity, 10u);
 }
 
 }  // namespace

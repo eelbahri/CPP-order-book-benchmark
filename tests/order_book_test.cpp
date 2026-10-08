@@ -15,6 +15,7 @@ Order sell(OrderId id, Price price, Quantity qty = 10) {
     return {.id = id, .price = price, .quantity = qty, .side = Side::Sell};
 }
 
+// Every test runs against every implementation.
 template <typename Book>
 class OrderBookTest : public ::testing::Test {};
 
@@ -59,9 +60,6 @@ TYPED_TEST(OrderBookTest, CountsOrdersAtTheSamePrice) {
     EXPECT_EQ(book.order_count(), 3u);
 }
 
-// The quantity at the best price is what a market data feed publishes
-// ("1,200 lots bid at 100"). It also checks that each level really
-// accumulates its orders, not just that the level exists.
 TYPED_TEST(OrderBookTest, BestBidQuantitySumsOrdersAtBestPrice) {
     TypeParam book;
     book.add(buy(1, 100, 10));

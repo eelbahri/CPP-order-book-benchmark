@@ -1,22 +1,19 @@
 #include <iostream>
 
-#include "orderbook/order.h"
+#include "orderbook/order_book_v3.h"
 
 int main() {
-    // int prices[3] = {1, 2, 3};
-    // int i = 3;
-    // std::cout << prices[i] << "\n"; // one past the end
-    // Lives on the stack: destroyed automatically when main() returns.
-    // Designated initializers (C++20) name each field, like a builder.
-    const orderbook::Order order{
-        .id = 1,
-        .price = 10'050,
-        .quantity = 100,
-        .side = orderbook::Side::Buy,
-    };
+    using namespace orderbook;
 
-    std::cout << "Order #" << order.id << ' ' << orderbook::to_string(order.side) << ' '
-              << order.quantity << " @ " << order.price << " ticks\n";
-    std::cout << "sizeof(Order) = " << sizeof(orderbook::Order) << " bytes\n";
+    OrderBookV3 book;
+    book.add({.id = 1, .price = 10'050, .quantity = 100, .side = Side::Buy});
+    book.add({.id = 2, .price = 10'050, .quantity = 40, .side = Side::Buy});
+    book.add({.id = 3, .price = 10'055, .quantity = 70, .side = Side::Sell});
+
+    std::cout << "best bid: " << book.best_bid_quantity().value_or(0) << " @ "
+              << book.best_bid().value_or(0) << '\n'
+              << "best ask: " << book.best_ask_quantity().value_or(0) << " @ "
+              << book.best_ask().value_or(0) << '\n'
+              << "orders:   " << book.order_count() << '\n';
     return 0;
 }

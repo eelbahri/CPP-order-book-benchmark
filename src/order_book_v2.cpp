@@ -1,17 +1,17 @@
 #include "orderbook/order_book_v2.h"
 
 #include <cstddef>
-#include <cstdint>
 #include <optional>
 
 namespace orderbook {
 
 void OrderBookV2::add(const Order& order) {
-    auto add_order = [&order](auto& container) { container[order.price].push_back(order); };
-    if (Side::Buy == order.side) {
-        add_order(bids_);
+    // bids_ and asks_ have different types (comparators differ): one generic lambda serves both.
+    auto add_to = [&order](auto& levels) { levels[order.price].push_back(order); };
+    if (order.side == Side::Buy) {
+        add_to(bids_);
     } else {
-        add_order(asks_);
+        add_to(asks_);
     }
 }
 

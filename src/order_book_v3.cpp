@@ -4,20 +4,20 @@
 #include <functional>
 #include <optional>
 
-#include "orderbook/order.h"
-
 namespace orderbook {
-namespace {  // helpers private to this file
+namespace {
 
+// Returns the level for `price`, inserting it at its sorted position if needed.
+// Scans from the back (best price) and skips every level better than `price`.
+// is_better(a, b): std::greater<> for bids, std::less<> for asks.
 template <typename Better>
 OrderBookV3::Level& find_or_insert_level(std::vector<OrderBookV3::Level>& levels, Price price,
                                          Better is_better) {
     std::size_t index = levels.size();
     while (index > 0 && is_better(levels[index - 1].price, price)) {
-        index = index - 1;
+        --index;
     }
 
-    // now levels[i-1] (if it exists) is the first level NOT better than ours
     if (index > 0 && levels[index - 1].price == price) {
         return levels[index - 1];
     }
@@ -41,7 +41,7 @@ void OrderBookV3::add(const Order& order) {
                        : find_or_insert_level(asks_, order.price, std::less<>{});
 
     level.total_quantity += order.quantity;
-    if (kNone == level.head) {  // is level empty
+    if (level.head == kNone) {
         level.head = next_order_position;
     } else {
         orders_[level.tail].next = next_order_position;
